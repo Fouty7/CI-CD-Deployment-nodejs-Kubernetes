@@ -19,5 +19,3 @@
       docker image ls
       docker compose up -d --build
       docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
-  - name: Exit play    
-    meta: end_play  

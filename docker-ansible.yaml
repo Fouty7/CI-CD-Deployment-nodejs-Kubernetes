@@ -19,4 +19,4 @@
       docker image ls
       docker compose up -d --build
       docker image prune
-    - meta: end_play  
+    meta: end_play  

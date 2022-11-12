@@ -12,7 +12,7 @@
       src: ./
       dest: circleci/
 
-  - name: start nginx container
+  - name: start docker compose
     shell: |
       cd circleci
       docker image ls

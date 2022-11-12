@@ -13,6 +13,7 @@
       dest: circleci/
 
   - name: start docker compose
+    become: yes
     shell: |
       cd circleci
       docker image ls

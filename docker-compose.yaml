@@ -1,19 +1,19 @@
 version: '3.5'
 
 services:
-    nodejs-app:
+    circle-nodejs-app:
         build:
           context: ./node-app
         image: aminfourty7/test-nodejs:latest  
-        container_name: nodejs-app
+        container_name: circle-nodejs-app
         hostname: nodejs-app
         ports:
             - "3000:3000"  
-    nginx:
+    circle-nginx:
         build:
           context: ./nginx
         image: aminfourty7/test-nginx:latest  
-        container_name: nginx
+        container_name: circle-nginx
         hostname: nginx
         ports:
             - "80:80" 

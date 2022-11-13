@@ -14,7 +14,7 @@ jobs:
       - run:
           name: Build nodeapp
           command: |
-            cd node-app
+            
             npm install
       - save_cache:
           paths: [node-app/node_modules]

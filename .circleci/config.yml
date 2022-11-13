@@ -89,13 +89,13 @@ jobs:
           command: |
             aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --filters "Name=tag:project,Values=docker-server" \
+            --filters "Name=tag:project,Values=docker1-server" \
             --output text >> ~/project/inventory
             cat ~/project/inventory
       - persist_to_workspace:
           root: ~/
           paths:
-            - project/inventory
+            - project/inventory/detail
       - slack/notify:
           event: fail
           template: basic_fail_1

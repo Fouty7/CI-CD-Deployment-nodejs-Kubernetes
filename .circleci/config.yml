@@ -112,7 +112,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible tar gzip aws- curl
+            apk add --update ansible tar gzip aws-cli curl
       - attach_workspace:
           at: ~/    
       - run:
@@ -125,7 +125,7 @@ jobs:
           template: success_tagged_deploy_1
       - slack/notify:
           event: fail
-          template: basic_fail_1                           
+          template: basic_fail_1                             
 workflows:
   docker-deployment:
     jobs:

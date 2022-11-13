@@ -1,6 +1,30 @@
 version: 2.1
 
+orbs:
+  slack: circleci/slack@4.10.1
+
 jobs:
+  notify:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - slack/notify:
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "plain_text",
+                      "text": "*This is a text notification*",
+                      "emoji": true
+                    }
+                  ]
+                }
+              ]
+            }
+          event: always
   build-nodejsapp:
     docker:
       - image: circleci/node:16
@@ -115,3 +139,8 @@ workflows:
           requires: [build-nginx-dockerimage, build-nodeapp-dockerimage]        
       - run-containers:
           requires: [get-instance-ip]
+  send-notification:
+    jobs:
+      - notify:
+          context: slack-secrets
+        

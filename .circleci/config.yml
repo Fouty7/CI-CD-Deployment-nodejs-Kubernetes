@@ -149,7 +149,7 @@ workflows:
       #        only: [main]
       - get-instance-ip:
           context: slack-secrets
-          requires: [build-nginx-dockerimage, build-nodeapp-dockerimage]        
+      #    requires: [build-nginx-dockerimage, build-nodeapp-dockerimage]        
       - run-containers:
           context: slack-secrets
           requires: [get-instance-ip]

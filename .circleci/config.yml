@@ -4,80 +4,80 @@ orbs:
   slack: circleci/slack@4.9.3
 
 jobs:
-  #build-nodejsapp:
-  #  docker:
-  #    - image: circleci/node:16
-  #  steps:
-  #    - checkout
-  #    - restore_cache:
-  #        keys: [nodejs-build]
-  #    - run:
-  #        name: Build nodeapp
-  #        command: |
-  #          cd node-app
-  #          npm install
-  #    - save_cache:
-  #        paths: [node-app/node_modules]
-  #        key: nodejs-build
-  #scan-nodejsapp:
-  #  docker:
-  #    - image: circleci/node:16
-  #  steps:
-  #    - checkout
-  #    - restore_cache:
-  #        keys: [nodejs-build]
-  #    - run:
-  #        name: Audit & Analyze Nodeapp
-  #        command: |
-  #          cd node-app
-  #          npm install
-  #          npm audit fix --audit-level=critical  
-  #build-nodeapp-dockerimage:
-  #  docker:
-  #    - image: cimg/go:1.13
-  #      auth:
-  #        username: $DOCKERHUB_USER
-  #        password: $DOCKERHUB_PASSWORD
-  #  steps:
-  #    - checkout
-  #    - setup_remote_docker:
-  #        version: 20.10.14
-  #    - run:
-  #        name: Build nodeapp image
-  #        command: |
-  #          cd node-app
-  #          docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
-  #          docker build -t aminfourty7/test-nodejs:latest .
-  #          docker push aminfourty7/test-nodejs:latest
-  #    - slack/notify:
-  #        event: fail
-  #        template: basic_fail_1
-  #    #- slack/notify:
-  #    #    event: pass
-  #    #    template: success_tagged_deploy_1      
-  #build-nginx-dockerimage:
-  #  docker:
-  #    - image: cimg/go:1.13
-  #      auth:
-  #        username: $DOCKERHUB_USER
-  #        password: $DOCKERHUB_PASSWORD
-  #  steps:
-  #    - checkout
-  #    - setup_remote_docker:
-  #        version: 20.10.14
-  #    - run:
-  #        name: Build nginx image
-  #        command: |
-  #          cd nginx
-  #          docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
-  #          docker build -t aminfourty7/test-nginx:latest .
-  #          docker push aminfourty7/test-nginx:latest
-  #    - slack/notify:
-  #        event: fail
-  #        template: basic_fail_1
-  #    #- slack/notify:
-  #    #    event: pass
-  #    #    template: success_tagged_deploy_1       
+  build-nodejsapp:
+    docker:
+      - image: circleci/node:16
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [nodejs-build]
+      - run:
+          name: Build nodeapp
+          command: |
+            cd node-app
+            npm install
+      - save_cache:
+          paths: [node-app/node_modules]
+          key: nodejs-build
+  scan-nodejsapp:
+    docker:
+      - image: circleci/node:16
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [nodejs-build]
+      - run:
+          name: Audit & Analyze Nodeapp
+          command: |
+            cd node-app
+            npm install
+            npm audit fix --audit-level=critical  
+  build-nodeapp-dockerimage:
+    docker:
+      - image: cimg/go:1.13
+        auth:
+          username: $DOCKERHUB_USER
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+      - run:
+          name: Build nodeapp image
+          command: |
+            cd node-app
+            docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+            docker build -t aminfourty7/test-nodejs:latest .
+            docker push aminfourty7/test-nodejs:latest
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      #- slack/notify:
+      #    event: pass
+      #    template: success_tagged_deploy_1      
+  build-nginx-dockerimage:
+    docker:
+      - image: cimg/go:1.13
+        auth:
+          username: $DOCKERHUB_USER
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+      - run:
+          name: Build nginx image
+          command: |
+            cd nginx
+            docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+            docker build -t aminfourty7/test-nginx:latest .
+            docker push aminfourty7/test-nginx:latest
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      #- slack/notify:
+      #    event: pass
+      #    template: success_tagged_deploy_1       
   get-instance-ip:
     docker:
       - image: amazon/aws-cli
@@ -112,7 +112,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible tar gzip aws-cli
+            apk add --update ansible tar gzip aws- curl
       - attach_workspace:
           at: ~/    
       - run:
@@ -125,34 +125,26 @@ jobs:
           template: success_tagged_deploy_1
       - slack/notify:
           event: fail
-          template: basic_fail_1
-  end-pipeline:
-    docker:
-      - image: cimg/go:1.13
-    steps:
-      - checkout
-      - run: echo "COMPLETED"  
+          template: basic_fail_1                           
 workflows:
   docker-deployment:
     jobs:
-      #- build-nodejsapp
-      #- scan-nodejsapp:
-      #    requires: [build-nodejsapp]
-      #- build-nodeapp-dockerimage:
-      #    requires: [scan-nodejsapp]
-      #    context: slack-secrets
-      #- build-nginx-dockerimage:
-      #    context: slack-secrets
-      #    requires: [scan-nodejsapp]
-      #    filters:
-      #      branches:
-      #        only: [main]
+      - build-nodejsapp
+      - scan-nodejsapp:
+          requires: [build-nodejsapp]
+      - build-nodeapp-dockerimage:
+          requires: [scan-nodejsapp]
+          context: slack-secrets
+      - build-nginx-dockerimage:
+          context: slack-secrets
+          requires: [scan-nodejsapp]
+          filters:
+            branches:
+              only: [main]
       - get-instance-ip:
           context: slack-secrets
-      #    requires: [build-nginx-dockerimage, build-nodeapp-dockerimage]        
+          requires: [build-nginx-dockerimage, build-nodeapp-dockerimage]        
       - run-containers:
           context: slack-secrets
           requires: [get-instance-ip]
-      - end-pipeline:
-          requires: [run-containers]    
         

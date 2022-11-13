@@ -133,6 +133,7 @@ workflows:
           requires: [build-nodejsapp]
       - build-nodeapp-dockerimage:
           requires: [scan-nodejsapp]
+          context: slack-secrets
       - build-nginx-dockerimage:
           requires: [scan-nodejsapp]
           filters:

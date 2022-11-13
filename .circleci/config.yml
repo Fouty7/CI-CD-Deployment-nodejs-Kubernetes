@@ -89,13 +89,13 @@ jobs:
           command: |
             aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --filters "Name=tag:project,Values=docker1-server" \
+            --filters "Name=tag:project,Values=docker-server" \
             --output text >> ~/project/inventory
             cat ~/project/inventory
       - persist_to_workspace:
           root: ~/
           paths:
-            - project/inventory/detail
+            - project/inventory
       - slack/notify:
           event: fail
           template: basic_fail_1
@@ -119,6 +119,7 @@ jobs:
           name: run containers
           command:
             ansible-playbook -i inventory docker-ansible.yaml
+      - run: echo "COMPLETED"      
       - slack/notify:
           event: pass
           template: success_tagged_deploy_1

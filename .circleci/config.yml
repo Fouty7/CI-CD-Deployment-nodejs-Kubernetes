@@ -70,6 +70,7 @@ jobs:
                               {
                                 "type": "mrkdwn",
                                 "text": "*Job*: ${CIRCLE_JOB}"
+                                "text": "*When*: $(date +'%m/%d/%Y %T')"
                               }
                             ]
                           },

@@ -100,6 +100,7 @@ commands:
           echo 'export PATH=/path/to/foo/bin:"$PATH"' >> "$BASH_ENV"
           echo 'export CIRCLE_MSG=$(git log --format=%B -n 1)' >> "$BASH_ENV"
           source "$BASH_ENV"
+          echo ${CIRCLE_MSG}
       - slack/notify:
           event: pass
           custom: |

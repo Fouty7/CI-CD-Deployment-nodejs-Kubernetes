@@ -262,6 +262,8 @@ jobs:
   run-containers:
     docker:
       - image: python:3.10-alpine3.16
+    environment:
+      COMMIT_MSG: $(git log --format=%B -n 1)
     steps:
       - checkout
       - add_ssh_keys:
@@ -282,7 +284,9 @@ jobs:
             COMMIT_MSG=$(git log --format=%B -n 1)
             echo ${COMMIT_MSG}
             echo $COMMIT_MSG
-      - notify-success
+      - notify-success:
+          environment:
+            COMMIT_MSG: $(git log --format=%B -n 1)
       - notify-failure                       
 workflows:
   docker-deployment:

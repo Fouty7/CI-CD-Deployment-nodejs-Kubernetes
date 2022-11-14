@@ -97,10 +97,9 @@ commands:
   notify-success:
     steps:
       - run: |
-            echo 'export PATH=/path/to/foo/bin:"$PATH"' >> "$COMMIT_MSG"
-            git log --format=%B -n 1 >> "$COMMIT_MSG"
-            echo ${COMMIT_MSG}
-            source "$COMMIT_MSG"
+            echo 'export PATH=/path/to/foo/bin:"$PATH"' >> "$BASH_ENV"
+            echo 'export VERY_IMPORTANT=$(cat important_value)' >> "$BASH_ENV"
+            source "$BASH_ENV"
       - slack/notify:
           event: pass
           custom: |

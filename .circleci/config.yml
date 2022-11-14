@@ -98,6 +98,7 @@ commands:
     steps:
       - slack/notify:
           event: pass
+          COMMIT_MSG = "Hello world"
           custom: |
             {
               "text": "CircleCI Workflow succeeded!",
@@ -259,8 +260,6 @@ jobs:
   run-containers:
     docker:
       - image: python:3.10-alpine3.16
-    environment:
-      COMMIT_MSG=$(git log --format=%B -n 1)
     steps:
       - checkout
       - add_ssh_keys:
@@ -280,8 +279,7 @@ jobs:
           command: |
             echo ${COMMIT_MSG}
             echo $COMMIT_MSG
-      - notify-success:
-          command: COMMIT_MSG=$(git log --format=%B -n 1)
+      - notify-success
       - notify-failure                       
 workflows:
   docker-deployment:

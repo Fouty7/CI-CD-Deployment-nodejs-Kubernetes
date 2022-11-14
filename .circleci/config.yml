@@ -95,12 +95,7 @@ commands:
                         ]
               }
   notify-success:
-    steps:
-      - run:
-          name: set env
-          environment:
-            COMMIT_MSG: $($git log --format=%B -n 1)
-          command: echo ${COMMIT_MSG}  
+    steps:  
       - slack/notify:
           event: pass
           custom: |
@@ -263,7 +258,7 @@ jobs:
       - notify-failure     
   run-containers:
     docker:
-      - image: python:3.10-alpine3.16
+      - image: python:3.10-alpine3.
     steps:
       - checkout
       - add_ssh_keys:
@@ -278,7 +273,11 @@ jobs:
           name: run containers
           command:
             ansible-playbook -i inventory docker-ansible.yaml
-      - run: echo "COMPLETED"      
+      - run: 
+          name: echo "COMPLETED"
+          command: |
+            echo 'export COMMIT_MSG << $(git log --format=%B -n 1)
+            echo COMMIT_MSG
       - notify-success
       - notify-failure                          
 workflows:

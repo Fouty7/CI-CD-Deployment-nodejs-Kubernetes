@@ -141,6 +141,10 @@ commands:
                               },
                               {
                                 "type": "mrkdwn",
+                                "text": "*Changes*: $(git log --format=%B -n 1)"
+                              },
+                              {
+                                "type": "mrkdwn",
                                 "text": "*Author*: ${CIRCLE_USERNAME}"
                               }
                             ],
@@ -197,7 +201,6 @@ jobs:
             npm install
             npm audit fix --audit-level=critical
             echo  ${CIRCLE_JOB} ${CIRCLE_PROJECT_REPONAME} ${CIRCLE_SHA1}
-            git log --format=%B -n 1
   build-nodeapp-dockerimage:
     docker:
       - image: cimg/go:1.13

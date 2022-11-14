@@ -4,6 +4,7 @@ orbs:
   slack: circleci/slack@4.9.3
 
 commands:
+  CIRCLE_MSG = ($git log --format=%B -n 1)
   notify-failure:
     steps:
       - slack/notify:

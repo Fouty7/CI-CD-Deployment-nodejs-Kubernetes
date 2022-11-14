@@ -3,55 +3,11 @@ version: 2.1
 orbs:
   slack: circleci/slack@4.9.3
 
-jobs:
-  build-nodejsapp:
-    docker:
-      - image: circleci/node:16
+commands:
+  notify-failure:
     steps:
-      - checkout
-      - restore_cache:
-          keys: [nodejs-build]
-      - run:
-          name: Build nodeapp
-          command: |
-            cd node-app
-            npm install
-      - save_cache:
-          paths: [node-app/node_modules]
-          key: nodejs-build
-  scan-nodejsapp:
-    docker:
-      - image: circleci/node:16
-    steps:
-      - checkout
-      - restore_cache:
-          keys: [nodejs-build]
-      - run:
-          name: Audit & Analyze Nodeapp
-          command: |
-            cd node-app
-            npm install
-            npm audit fix --audit-level=critical
-            echo  ${CIRCLE_JOB} ${CIRCLE_PROJECT_REPONAME} ${CIRCLE_WORKFLOW_ID} ${CIRCLE_BRANCH} ${CIRCLE_BUILD_URL} ${SLACK_PARAM_MENTIONS} ${CIRCLE_USERNAME}
-  build-nodeapp-dockerimage:
-    docker:
-      - image: cimg/go:1.13
-        auth:
-          username: $DOCKERHUB_USER
-          password: $DOCKERHUB_PASSWORD
-    steps:
-      - checkout
-      - setup_remote_docker:
-          version: 20.10.14
-      - run:
-          name: Build nodeapp image
-          command: |
-            
-            docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
-            docker build -t aminfourty7/test-nodejs:latest .
-            docker push aminfourty7/test-nodejs:latest
       - slack/notify:
-          event: fail
+          event: pass
           custom: |
             {
               "text": "CircleCI job failed.",
@@ -138,9 +94,56 @@ jobs:
                           }
                         ]
               }
-      #- slack/notify:
-      #    event: pass
-      #    template: success_tagged_deploy_1      
+
+
+jobs:
+  build-nodejsapp:
+    docker:
+      - image: circleci/node:16
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [nodejs-build]
+      - run:
+          name: Build nodeapp
+          command: |
+            cd node-app
+            npm install
+      - save_cache:
+          paths: [node-app/node_modules]
+          key: nodejs-build
+  scan-nodejsapp:
+    docker:
+      - image: circleci/node:16
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [nodejs-build]
+      - run:
+          name: Audit & Analyze Nodeapp
+          command: |
+            cd node-app
+            npm install
+            npm audit fix --audit-level=critical
+            echo  ${CIRCLE_JOB} ${CIRCLE_PROJECT_REPONAME} ${CIRCLE_WORKFLOW_ID} ${CIRCLE_BRANCH} ${CIRCLE_BUILD_URL} ${SLACK_PARAM_MENTIONS} ${CIRCLE_USERNAME}
+  build-nodeapp-dockerimage:
+    docker:
+      - image: cimg/go:1.13
+        auth:
+          username: $DOCKERHUB_USER
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+      - run:
+          name: Build nodeapp image
+          command: |
+            
+            docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+            docker build -t aminfourty7/test-nodejs:latest .
+            docker push aminfourty7/test-nodejs:latest
+      - notify-failure       
   build-nginx-dockerimage:
     docker:
       - image: cimg/go:1.13

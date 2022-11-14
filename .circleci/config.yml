@@ -210,7 +210,7 @@ jobs:
       - run:
           name: Build nodeapp image
           command: |
-            
+            cd node-app
             docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
             docker build -t aminfourty7/test-nodejs:latest .
             docker push aminfourty7/test-nodejs:latest

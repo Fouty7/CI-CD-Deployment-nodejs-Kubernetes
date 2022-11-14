@@ -98,7 +98,7 @@ commands:
     steps:
       - slack/notify:
           event: pass
-          COMMIT_MSG = "Hello world"
+        - run: 
           custom: |
             {
               "text": "CircleCI Workflow succeeded!",

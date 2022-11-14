@@ -129,7 +129,7 @@ commands:
                             "fields": [
                               {
                                 "type": "mrkdwn",
-                                "text": "*Job Status*: "All Jobs Passed. :circleci-pass:",
+                                "text": "*Job Status*: All Jobs Passed. :circleci-pass:",
                                 "emoji": true
                               }
                             ]

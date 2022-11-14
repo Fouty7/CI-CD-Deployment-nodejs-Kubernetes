@@ -276,7 +276,7 @@ jobs:
       - run: 
           name: echo "COMPLETED"
           command: |
-            echo 'export COMMIT_MSG << $(git log --format=%B -n 1)
+            echo 'export COMMIT_MSG' << $(git log --format=%B -n 1)
             echo COMMIT_MSG
       - notify-success
       - notify-failure                          

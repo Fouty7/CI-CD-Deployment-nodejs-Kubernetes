@@ -21,7 +21,7 @@ commands:
                             "type": "header",
                             "text": {
                               "type": "plain_text",
-                              "text": "Job Failed. :red_circle:",
+                              "text": "Job Failed. :circle-fail:",
                               "emoji": true
                               }
                           },
@@ -129,8 +129,7 @@ commands:
                             "fields": [
                               {
                                 "type": "mrkdwn",
-                                "text": "*Job Status*: All Jobs Passed. :circleci-pass:",
-                                "emoji": true
+                                "text": "*Job Status*: All Jobs Passed. :circleci-pass:"
                               }
                             ]
                           },

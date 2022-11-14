@@ -99,7 +99,7 @@ commands:
       - run:
           name: set env
           environment:
-            COMMIT_MSG: $(git log --format=%B -n 1)
+            COMMIT_MSG: $($git log --format=%B -n 1)
           command: echo ${COMMIT_MSG}  
       - slack/notify:
           event: pass

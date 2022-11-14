@@ -26,7 +26,6 @@ commands:
                               {
                                 "type": "mrkdwn",
                                 "text": "*Job ID*: ${CIRCLE_WORKFLOW_JOB_ID}",
-                                "emoji": true
                               }
                             ]
                           },

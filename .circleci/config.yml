@@ -49,6 +49,7 @@ jobs:
             docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
             docker build -t aminfourty7/test-nodejs:latest .
             docker push aminfourty7/test-nodejs:latest
+            echo  ${CIRCLE_JOB} ${CIRCLE_PROJECT_REPONAME} ${CIRCLE_BRANCH} ${CIRCLE_BUILD_URL}
       - slack/notify:
           event: fail
           template: |
@@ -77,15 +78,15 @@ jobs:
                             "fields": [
                               {
                                 "type": "mrkdwn",
-                                "text": "*Project*: $CIRCLE_PROJECT_REPONAME"
+                                "text": "*Project*: ${CIRCLE_PROJECT_REPONAME}"
                               },
                               {
                                 "type": "mrkdwn",
-                                "text": "*Branch*: $CIRCLE_BRANCH"
+                                "text": "*Branch*: ${CIRCLE_BRANCH}"
                               },
                               {
                                 "type": "mrkdwn",
-                                "text": "*Author*: $CIRCLE_USERNAME"
+                                "text": "*Author*: ${CIRCLE_USERNAME}"
                               }
                             ],
                             "accessory": {
@@ -99,7 +100,7 @@ jobs:
                             "fields": [
                               {
                                 "type": "mrkdwn",
-                                "text": "*Mentions*: $SLACK_PARAM_MENTIONS"
+                                "text": "*Mentions*: ${SLACK_PARAM_MENTIONS}"
                               }
                             ]
                           },

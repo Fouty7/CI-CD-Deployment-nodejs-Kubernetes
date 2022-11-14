@@ -98,7 +98,7 @@ commands:
     steps:
       - slack/notify:
           event: pass
-        - run: 
+          run: 
           custom: |
             {
               "text": "CircleCI Workflow succeeded!",

@@ -98,10 +98,9 @@ commands:
     steps:
       - run:
           name: set env
-            command: git log --format=%B -n 1 > important_value
-            environment:
-              COMMIT_MSG: $(git log --format=%B -n 1)
-              echo ${COMMIT_MSG}
+          command: git log --format=%B -n 1 > important_value
+          environment:
+            COMMIT_MSG: $(git log --format=%B -n 1)
       - slack/notify:
           event: pass
           custom: |

@@ -69,7 +69,24 @@ jobs:
                             "fields": [
                               {
                                 "type": "mrkdwn",
-                                "text": "*Job*: ${CIRCLE_JOB}",
+                                "text": "*Job ID*: ${CIRCLE_WORKFLOW_JOB_ID}",
+                              }
+                            ]
+                          },
+                          {
+                            "type": "section",
+                            "fields": [
+                              {
+                                "type": "mrkdwn",
+                                "text": "*Job*: ${CIRCLE_JOB}"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "section",
+                            "fields": [
+                              {
+                                "type": "mrkdwn",
                                 "text": "*When*: $(date +'%m/%d/%Y %T')"
                               }
                             ]
@@ -79,7 +96,7 @@ jobs:
                             "fields": [
                               {
                                 "type": "mrkdwn",
-                                "text": "*Tag*: ${CIRCLE_TAG}"
+                                "text": "*Workflow ID*: ${CIRCLE_WORKFLOW_ID}"
                               }
                             ]
                           },

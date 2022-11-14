@@ -25,7 +25,7 @@ commands:
                             "fields": [
                               {
                                 "type": "mrkdwn",
-                                "text": "*Job ID*: ${CIRCLE_WORKFLOW_JOB_ID}",
+                                "text": "*Job ID*: ${CIRCLE_WORKFLOW_JOB_ID}"
                               }
                             ]
                           },

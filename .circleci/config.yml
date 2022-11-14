@@ -96,11 +96,10 @@ commands:
               }
   notify-success:
     steps:
-      - get-github-commit:
-          - run: |
-                git log --format=%B -n 1 >> "$COMMIT_MSG"
-                echo ${COMMIT_MSG}
-                source "$COMMIT_MSG"
+      - run: |
+            git log --format=%B -n 1 >> "$COMMIT_MSG"
+            echo ${COMMIT_MSG}
+            source "$COMMIT_MSG"
       - slack/notify:
           event: pass
           custom: |

@@ -78,7 +78,7 @@ jobs:
                             "fields": [
                               {
                                 "type": "mrkdwn",
-                                "text": "*Tag*: ${CIRCLE_WORKFLOW_ID}""
+                                "string": "*Tag*: ${CIRCLE_WORKFLOW_ID}""
                               }
                             ]
                           },

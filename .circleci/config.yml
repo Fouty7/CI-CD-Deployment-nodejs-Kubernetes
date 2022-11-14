@@ -280,7 +280,8 @@ jobs:
           command: |
             echo ${COMMIT_MSG}
             echo $COMMIT_MSG
-      - notify-success
+      - notify-success:
+          command: COMMIT_MSG=$(git log --format=%B -n 1)
       - notify-failure                       
 workflows:
   docker-deployment:

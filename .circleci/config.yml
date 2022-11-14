@@ -6,9 +6,6 @@ orbs:
 commands:
   notify-failure:
     steps:
-      - run: |
-          CIRCLE_MSG = $(git log --format=%B -n 1)
-          echo ${CIRCLE_MSG}
       - slack/notify:
           event: fail
           custom: |

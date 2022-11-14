@@ -96,6 +96,13 @@ commands:
               }
   notify-success:
     steps:
+      - get-github-commit:
+          - run:
+             name: Update PATH and Define Environment Variable at Runtime
+             command: |
+                git log --format=%B -n 1 >> "$COMMIT_MSG"
+                echo ${COMMIT_MSG}
+                source "$COMMIT_MSG"
       - slack/notify:
           event: pass
           custom: |
@@ -141,7 +148,7 @@ commands:
                               },
                               {
                                 "type": "mrkdwn",
-                                "text": "*Changes*: $(git log --format=%B -n 1)"
+                                "text": "*Changes*: ${CPMMIT_MSG}"
                               },
                               {
                                 "type": "mrkdwn",

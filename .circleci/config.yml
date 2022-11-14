@@ -45,13 +45,80 @@ jobs:
       - run:
           name: Build nodeapp image
           command: |
-            cd node-app
+            
             docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
             docker build -t aminfourty7/test-nodejs:latest .
             docker push aminfourty7/test-nodejs:latest
       - slack/notify:
           event: fail
-          template: basic_fail_1
+          template: |
+            {
+              "text": "CircleCI job failed.",
+              "blocks": [
+                          {
+                            "type": "header",
+                            "text": {
+                              "type": "plain_text",
+                              "text": "Job Failed. :red_circle:",
+                              "emoji": true
+                              }
+                          },
+                          {
+                            "type": "section",
+                            "fields": [
+                              {
+                                "type": "mrkdwn",
+                                "text": "*Job*: ${CIRCLE_JOB}"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "section",
+                            "fields": [
+                              {
+                                "type": "mrkdwn",
+                                "text": "*Project*: $CIRCLE_PROJECT_REPONAME"
+                              },
+                              {
+                                "type": "mrkdwn",
+                                "text": "*Branch*: $CIRCLE_BRANCH"
+                              },
+                              {
+                                "type": "mrkdwn",
+                                "text": "*Author*: $CIRCLE_USERNAME"
+                              }
+                            ],
+                            "accessory": {
+                              "type": "image",
+                              "image_url": "https://assets.brandfolder.com/otz5mn-bw4j2w-6jzqo8/original/circle-logo-badge-black.png",
+                              "alt_text": "CircleCI logo"
+                            }
+                          },
+                          {
+                            "type": "section",
+                            "fields": [
+                              {
+                                "type": "mrkdwn",
+                                "text": "*Mentions*: $SLACK_PARAM_MENTIONS"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "actions",
+                            "elements": [
+                              {
+                                "type": "button",
+                                "action_id": "basic_fail_view",
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "View Job"
+                                },
+                                "url": "${CIRCLE_BUILD_URL}"
+                              }
+                            ]
+                          }
+                        ]
+              }
       #- slack/notify:
       #    event: pass
       #    template: success_tagged_deploy_1      

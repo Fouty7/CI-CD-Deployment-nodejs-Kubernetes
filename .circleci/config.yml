@@ -120,7 +120,7 @@ commands:
                             "type": "header",
                             "text": {
                               "type": "plain_text",
-                              "text": "Workflow Successful. :tada:",
+                              "text": "Workflow Successful. :circleci-pass:",
                               "emoji": true
                               }
                           },
@@ -129,7 +129,7 @@ commands:
                             "fields": [
                               {
                                 "type": "mrkdwn",
-                                "text": "*Job Status*: All Jobs Passed. :circleci-pass:"
+                                "text": "*Job Status*: All Jobs Passed!"
                               }
                             ]
                           },

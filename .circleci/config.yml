@@ -21,7 +21,7 @@ commands:
                             "type": "header",
                             "text": {
                               "type": "plain_text",
-                              "text": "Job Failed. :circle-fail:",
+                              "text": "Job Failed. :red_circle:",
                               "emoji": true
                               }
                           },
@@ -120,7 +120,7 @@ commands:
                             "type": "header",
                             "text": {
                               "type": "plain_text",
-                              "text": "Workflow Successful. :circleci-pass:",
+                              "text": "Workflow Successful. :tada:",
                               "emoji": true
                               }
                           },

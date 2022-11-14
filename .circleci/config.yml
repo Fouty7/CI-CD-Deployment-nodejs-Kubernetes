@@ -95,10 +95,10 @@ commands:
                         ]
               }
   notify-success:
+    environment:
+      COMMIT_MSG: $(git log --format=%B -n 1)
     steps:
       - slack/notify:
-          environment:
-            COMMIT_MSG: $(git log --format=%B -n 1)
           event: pass
           custom: |
             {

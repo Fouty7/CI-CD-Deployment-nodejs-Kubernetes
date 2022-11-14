@@ -98,7 +98,6 @@ commands:
     steps:
       - slack/notify:
           event: pass
-          command: 
           custom: |
             {
               "text": "CircleCI Workflow succeeded!",
@@ -142,7 +141,7 @@ commands:
                               },
                               {
                                 "type": "mrkdwn",
-                                "text": "*Changes*: $COMMIT_MSG"
+                                "text": "*Changes*: ${COMMIT_MSG}"
                               },
                               {
                                 "type": "mrkdwn",

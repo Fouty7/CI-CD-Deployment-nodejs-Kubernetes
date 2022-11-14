@@ -97,8 +97,9 @@ commands:
   notify-success:
     steps:
       - run: |
-          CIRCLE_MSG = $(git log --format=%B -n 1)
-          echo ${CIRCLE_MSG}
+          echo 'export PATH=/path/to/foo/bin:"$PATH"' >> "$BASH_ENV"
+          echo 'export CIRCLE_MSG=$(git log --format=%B -n 1)' >> "$BASH_ENV"
+          source "$BASH_ENV"
       - slack/notify:
           event: pass
           custom: |

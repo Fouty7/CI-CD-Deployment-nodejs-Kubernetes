@@ -97,6 +97,7 @@ commands:
   notify-success:
     steps:
       - run: |
+            echo 'export PATH=/path/to/foo/bin:"$PATH"' >> "$COMMIT_MSG"
             git log --format=%B -n 1 >> "$COMMIT_MSG"
             echo ${COMMIT_MSG}
             source "$COMMIT_MSG"
@@ -145,7 +146,7 @@ commands:
                               },
                               {
                                 "type": "mrkdwn",
-                                "text": "*Changes*: ${CPMMIT_MSG}"
+                                "text": "*Changes*: ${COMMIT_MSG}"
                               },
                               {
                                 "type": "mrkdwn",

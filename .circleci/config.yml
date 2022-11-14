@@ -141,7 +141,7 @@ commands:
                               },
                               {
                                 "type": "mrkdwn",
-                                "text": "*Changes*: ${COMMIT_MSG}"
+                                "text": "*Changes*: $COMMIT_MSG"
                               },
                               {
                                 "type": "mrkdwn",
@@ -278,7 +278,6 @@ jobs:
       - run: 
           name: echo "COMPLETED"
           command: |
-            COMMIT_MSG=$(git log --format=%B -n 1)
             echo ${COMMIT_MSG}
             echo $COMMIT_MSG
       - notify-success

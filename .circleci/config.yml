@@ -7,7 +7,7 @@ commands:
   notify-failure:
     steps:
       - slack/notify:
-          event: pass
+          event: fail
           custom: |
             {
               "text": "CircleCI job failed.",

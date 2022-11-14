@@ -52,7 +52,7 @@ jobs:
             docker push aminfourty7/test-nodejs:latest
       - slack/notify:
           event: fail
-          template: |
+          custom: |
             {
               "text": "CircleCI job failed.",
               "blocks": [

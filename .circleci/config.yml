@@ -6,6 +6,11 @@ orbs:
 commands:
   notify-failure:
     steps:
+      - run: |
+          echo 'export PATH=/path/to/foo/bin:"$PATH"' >> "$BASH_ENV"
+          echo 'export COMMIT_MSG=$(git log --format=%B -n 1)' >> "$BASH_ENV"
+          source "$BASH_ENV"
+          echo ${COMMIT_MSG}
       - slack/notify:
           event: fail
           custom: |
@@ -69,6 +74,10 @@ commands:
                               },
                               {
                                 "type": "mrkdwn",
+                                "text": "*Changes*: ${COMMIT_MSG}"
+                              },
+                              {
+                                "type": "mrkdwn",
                                 "text": "*Author*: ${CIRCLE_USERNAME}"
                               }
                             ],
@@ -95,10 +104,6 @@ commands:
                         ]
               }
   notify-success:
-    parameters:
-      Circle_msg:
-        type: string
-        default: $(git log --format=%B -n 1)
     steps:
       - run: |
           echo 'export PATH=/path/to/foo/bin:"$PATH"' >> "$BASH_ENV"
@@ -118,6 +123,16 @@ commands:
                               "text": "Workflow Successful. :tada:",
                               "emoji": true
                               }
+                          },
+                          {
+                            "type": "section",
+                            "fields": [
+                              {
+                                "type": "mrkdwn",
+                                "text": "*Job Status*: "All Jobs Passed. :green_circle:",
+                                "emoji": true
+                              }
+                            ]
                           },
                           {
                             "type": "section",

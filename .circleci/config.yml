@@ -70,6 +70,7 @@ jobs:
                               {
                                 "type": "mrkdwn",
                                 "text": "*Job*: ${CIRCLE_JOB}"
+                                "text": "*Tag*: ${CIRCLE_WORKFLOW_ID}"
                               }
                             ]
                           },

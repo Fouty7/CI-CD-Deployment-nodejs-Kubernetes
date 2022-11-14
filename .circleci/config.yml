@@ -39,7 +39,7 @@ commands:
                             "fields": [
                               {
                                 "type": "mrkdwn",
-                                "text": "*Job*: ${CIRCLE_JOB}"
+                                "text": "*Failed Job*: ${CIRCLE_JOB}"
                               }
                             ]
                           },
@@ -129,7 +129,7 @@ commands:
                             "fields": [
                               {
                                 "type": "mrkdwn",
-                                "text": "*Job Status*: "All Jobs Passed. :green_circle:",
+                                "text": "*Job Status*: "All Jobs Passed. :circleci-pass",
                                 "emoji": true
                               }
                             ]
@@ -297,11 +297,6 @@ jobs:
           name: run containers
           command:
             ansible-playbook -i inventory docker-ansible.yaml
-      - run: 
-          name: echo "COMPLETED"
-          command: |
-            echo ${COMMIT_MSG}
-            echo $COMMIT_MSG
       - notify-success
       - notify-failure                       
 workflows:

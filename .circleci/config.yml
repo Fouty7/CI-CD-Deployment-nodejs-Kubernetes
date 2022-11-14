@@ -96,10 +96,9 @@ commands:
               }
   notify-success:
     steps:
-      - run: |
-          COMMIT_MSG=$(git log --format=%B -n 1)
-          echo ${COMMIT_MSG}
       - slack/notify:
+          environment:
+            COMMIT_MSG: $(git log --format=%B -n 1)
           event: pass
           custom: |
             {
@@ -284,9 +283,7 @@ jobs:
             COMMIT_MSG=$(git log --format=%B -n 1)
             echo ${COMMIT_MSG}
             echo $COMMIT_MSG
-      - notify-success:
-          environment:
-            COMMIT_MSG: $(git log --format=%B -n 1)
+      - notify-success
       - notify-failure                       
 workflows:
   docker-deployment:

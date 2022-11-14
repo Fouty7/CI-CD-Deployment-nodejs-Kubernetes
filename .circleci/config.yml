@@ -96,11 +96,12 @@ commands:
               }
   notify-success:
     steps:
-      - run: |
-            git log --format=%B -n 1 > important_value
-            echo 'export PATH=/path/to/foo/bin:"$PATH"' >> "$BASH_ENV"
-            echo 'export VERY_IMPORTANT=$(cat important_value)' >> "$BASH_ENV"
-            source "$BASH_ENV"
+      - run:
+          name: set env
+            command: git log --format=%B -n 1 > important_value
+            environment:
+              COMMIT_MSG: $(git log --format=%B -n 1)
+              echo ${COMMIT_MSG}
       - slack/notify:
           event: pass
           custom: |
@@ -146,7 +147,7 @@ commands:
                               },
                               {
                                 "type": "mrkdwn",
-                                "text": "*Changes*: ${BASH_ENV}"
+                                "text": "*Changes*: ${COMMIT_MSG}"
                               },
                               {
                                 "type": "mrkdwn",

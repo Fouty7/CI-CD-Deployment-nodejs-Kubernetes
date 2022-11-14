@@ -32,7 +32,7 @@ jobs:
             cd node-app
             npm install
             npm audit fix --audit-level=critical
-            echo  ${CIRCLE_JOB} ${CIRCLE_PROJECT_REPONAME} ${CIRCLE_BRANCH} ${CIRCLE_BUILD_URL} ${SLACK_PARAM_MENTIONS} ${CIRCLE_USERNAME}
+            echo  ${CIRCLE_JOB} ${CIRCLE_PROJECT_REPONAME} ${CIRCLE_WORKFLOW_ID} ${CIRCLE_BRANCH} ${CIRCLE_BUILD_URL} ${SLACK_PARAM_MENTIONS} ${CIRCLE_USERNAME}
   build-nodeapp-dockerimage:
     docker:
       - image: cimg/go:1.13
@@ -78,7 +78,7 @@ jobs:
                             "fields": [
                               {
                                 "type": "mrkdwn",
-                                "string": "*Tag*: ${CIRCLE_WORKFLOW_ID}""
+                                "string": "*Tag*: ${CIRCLE_WORKFLOW_ID}"
                               }
                             ]
                           },

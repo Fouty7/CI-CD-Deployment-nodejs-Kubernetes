@@ -146,7 +146,7 @@ commands:
                               },
                               {
                                 "type": "mrkdwn",
-                                "text": "*Changes*: ${COMMIT_MSG}"
+                                "text": "*Changes*: ${BASH_ENV}"
                               },
                               {
                                 "type": "mrkdwn",

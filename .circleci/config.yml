@@ -271,7 +271,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update ansible tar gzip aws-cli curl
+            apk add --update ansible tar gzip aws-cli curl git
       - attach_workspace:
           at: ~/    
       - run:

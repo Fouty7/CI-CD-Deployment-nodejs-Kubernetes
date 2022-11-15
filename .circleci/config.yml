@@ -110,11 +110,6 @@ commands:
               }
   notify-success:
     steps:
-      - run: |
-          echo 'export PATH=/path/to/foo/bin:"$PATH"' >> "$BASH_ENV"
-          echo 'export COMMIT_MSG=$(git log --format=%B -n 1)' >> "$BASH_ENV"
-          source "$BASH_ENV"
-          echo ${COMMIT_MSG}
       - slack/notify:
           event: pass
           custom: |
@@ -243,7 +238,7 @@ jobs:
       - run:
           name: Build nodeapp image
           command: |
-            
+            cd node-app
             docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
             docker build -t aminfourty7/test-nodejs:latest .
             docker push aminfourty7/test-nodejs:latest
@@ -258,6 +253,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 20.10.14
+      - get-commit-msg    
       - run:
           name: Build nginx image
           command: |
@@ -272,6 +268,7 @@ jobs:
     steps:
       - checkout
       - run: yum install -y tar gzip
+      - get-commit-msg
       - run:
           name: Add instance-end ip to ansible inventory
           command: |
@@ -292,6 +289,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints: ["9f:7e:0b:c8:94:45:60:f3:7a:95:ef:73:ca:42:dd:62"]
+      - get-commit-msg    
       - run:
           name: Install dependencies
           command: |

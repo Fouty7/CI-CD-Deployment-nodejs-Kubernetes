@@ -6,6 +6,7 @@ In this project, we create an environmnet where changes to application code, upo
 ### Getting Started
 
 * Clone this repo: `git clone https://github.com/Fouty7/nodejs-kubernetes.git`
+* Spin up Amazon EC2 Instance `https://docs.aws.amazon.com/efs/latest/ug/gs-step-one-create-ec2-resources.html`
 * Install Docker 
 * Install Kubernetes via minikube
 * Build Container using docker

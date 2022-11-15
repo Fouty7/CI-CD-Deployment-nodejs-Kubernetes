@@ -12,11 +12,11 @@
       src: ./
       dest: circleci/
 
+# Uncomment the last line in the shell coomand below to clean up dangling docker images. Leave as it is if this is your first run of the pipeline or if no changes have been made to your application code!! 
   - name: start docker compose
     become: yes
     shell: |
       cd circleci
       docker image ls
       docker compose up -d --build
-# Uncomment delow line to clean up dangling docker images. Leave as it is if this is your first run of the pipeline or if no changes have been made to your application code!!      
       docker rmi $(docker images --filter "dangling=true" -q --no-trunc)

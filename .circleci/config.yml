@@ -4,13 +4,18 @@ orbs:
   slack: circleci/slack@4.9.3
 
 commands:
+  get-commit-msg:
+    steps:
+      - run:
+          name: set Env Var for commit
+          command: |
+            echo 'export PATH=/path/to/foo/bin:"$PATH"' >> "$BASH_ENV"
+            echo 'export COMMIT_MSG=$(git log --format=%B -n 1)' >> "$BASH_ENV"
+            source "$BASH_ENV"
+            echo ${COMMIT_MSG}
+      
   notify-failure:
     steps:
-      - run: |
-          echo 'export PATH=/path/to/foo/bin:"$PATH"' >> "$BASH_ENV"
-          echo 'export COMMIT_MSG=$(git log --format=%B -n 1)' >> "$BASH_ENV"
-          source "$BASH_ENV"
-          echo ${COMMIT_MSG}
       - slack/notify:
           event: fail
           custom: |
@@ -234,13 +239,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 20.10.14
-      - run:
-          name: set Env Var for commit
-          command: |
-            echo 'export PATH=/path/to/foo/bin:"$PATH"' >> "$BASH_ENV"
-            echo 'export COMMIT_MSG=$(git log --format=%B -n 1)' >> "$BASH_ENV"
-            source "$BASH_ENV"
-            echo ${COMMIT_MSG}    
+      - get-commit-msg       
       - run:
           name: Build nodeapp image
           command: |

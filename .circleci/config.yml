@@ -235,14 +235,20 @@ jobs:
       - setup_remote_docker:
           version: 20.10.14
       - run:
+        name: set Env Var for commit
+          command: |
+            echo 'export PATH=/path/to/foo/bin:"$PATH"' >> "$BASH_ENV"
+            echo 'export COMMIT_MSG=$(git log --format=%B -n 1)' >> "$BASH_ENV"
+            source "$BASH_ENV"
+            echo ${COMMIT_MSG}    
+      - run:
           name: Build nodeapp image
           command: |
-            cd node-app
+            
             docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
             docker build -t aminfourty7/test-nodejs:latest .
             docker push aminfourty7/test-nodejs:latest
-      - notify-failure
-      - notify-success    
+      - notify-failure  
   build-nginx-dockerimage:
     docker:
       - image: cimg/go:1.13

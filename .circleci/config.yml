@@ -235,7 +235,7 @@ jobs:
       - setup_remote_docker:
           version: 20.10.14
       - run:
-        name: set Env Var for commit
+          name: set Env Var for commit
           command: |
             echo 'export PATH=/path/to/foo/bin:"$PATH"' >> "$BASH_ENV"
             echo 'export COMMIT_MSG=$(git log --format=%B -n 1)' >> "$BASH_ENV"

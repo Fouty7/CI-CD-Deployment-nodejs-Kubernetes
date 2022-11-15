@@ -220,7 +220,7 @@ jobs:
       - run:
           name: Audit & Analyze Nodeapp
           command: |
-            cd node-app
+            
             npm install
             npm audit fix --audit-level=critical
             echo  ${CIRCLE_JOB} ${CIRCLE_PROJECT_REPONAME} ${CIRCLE_SHA1}

@@ -19,5 +19,5 @@ In this project, we create an environmnet where changes to application code, upo
 `https://docs.aws.amazon.com/efs/latest/ug/gs-step-one-create-ec2-resources.html`
 
 * Use this article to spin up an ubuntu ec2 Instance `https://www.cloudbooklet.com/create-an-ec2-instance-on-aws-with-ubuntu-18-04/`
-* Download and save the .pem file in the create key pair step
-* 
+* Download and save the .pem file in the create key-pair step
+* Note: make sure to enable HTTP & HTTPS traffic to enable our dockerized application to accessible from the internet

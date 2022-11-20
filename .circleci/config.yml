@@ -195,73 +195,73 @@ commands:
               }
 
 jobs:
-  build-nodejsapp:
-    docker:
-      - image: circleci/node:16
-    steps:
-      - checkout
-      - restore_cache:
-          keys: [nodejs-build]
-      - run:
-          name: Build nodeapp
-          command: |
-            cd node-app
-            npm install
-      - save_cache:
-          paths: [node-app/node_modules]
-          key: nodejs-build
-  scan-nodejsapp:
-    docker:
-      - image: circleci/node:16
-    steps:
-      - checkout
-      - restore_cache:
-          keys: [nodejs-build]
-      - run:
-          name: Audit & Analyze Nodeapp
-          command: |
-            cd node-app
-            npm install
-            npm audit fix --audit-level=critical
-            echo  ${CIRCLE_JOB} ${CIRCLE_PROJECT_REPONAME} ${CIRCLE_SHA1}
-  build-nodeapp-dockerimage:
-    docker:
-      - image: cimg/go:1.13
-        auth:
-          username: $DOCKERHUB_USER
-          password: $DOCKERHUB_PASSWORD
-    steps:
-      - checkout
-      - setup_remote_docker:
-          version: 20.10.14
-      - get-commit-msg       
-      - run:
-          name: Build nodeapp image
-          command: |
-            cd node-app
-            docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
-            docker build -t aminfourty7/test-nodejs:latest .
-            docker push aminfourty7/test-nodejs:latest
-      - notify-failure  
-  build-nginx-dockerimage:
-    docker:
-      - image: cimg/go:1.13
-        auth:
-          username: $DOCKERHUB_USER
-          password: $DOCKERHUB_PASSWORD
-    steps:
-      - checkout
-      - setup_remote_docker:
-          version: 20.10.14
-      - get-commit-msg    
-      - run:
-          name: Build nginx image
-          command: |
-            cd nginx
-            docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
-            docker build -t aminfourty7/test-nginx:latest .
-            docker push aminfourty7/test-nginx:latest
-      - notify-failure      
+  #build-nodejsapp:
+  #  docker:
+  #    - image: circleci/node:16
+  #  steps:
+  #    - checkout
+  #    - restore_cache:
+  #        keys: [nodejs-build]
+  #    - run:
+  #        name: Build nodeapp
+  #        command: |
+  #          cd node-app
+  #          npm install
+  #    - save_cache:
+  #        paths: [node-app/node_modules]
+  #        key: nodejs-build
+  #scan-nodejsapp:
+  #  docker:
+  #    - image: circleci/node:16
+  #  steps:
+  #    - checkout
+  #    - restore_cache:
+  #        keys: [nodejs-build]
+  #    - run:
+  #        name: Audit & Analyze Nodeapp
+  #        command: |
+  #          cd node-app
+  #          npm install
+  #          npm audit fix --audit-level=critical
+  #          echo  ${CIRCLE_JOB} ${CIRCLE_PROJECT_REPONAME} ${CIRCLE_SHA1}
+  #build-nodeapp-dockerimage:
+  #  docker:
+  #    - image: cimg/go:1.13
+  #      auth:
+  #        username: $DOCKERHUB_USER
+  #        password: $DOCKERHUB_PASSWORD
+  #  steps:
+  #    - checkout
+  #    - setup_remote_docker:
+  #        version: 20.10.14
+  #    - get-commit-msg       
+  #    - run:
+  #        name: Build nodeapp image
+  #        command: |
+  #          cd node-app
+  #          docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+  #          docker build -t aminfourty7/test-nodejs:latest .
+  #          docker push aminfourty7/test-nodejs:latest
+  #    - notify-failure  
+  #build-nginx-dockerimage:
+  #  docker:
+  #    - image: cimg/go:1.13
+  #      auth:
+  #        username: $DOCKERHUB_USER
+  #        password: $DOCKERHUB_PASSWORD
+  #  steps:
+  #    - checkout
+  #    - setup_remote_docker:
+  #        version: 20.10.14
+  #    - get-commit-msg    
+  #    - run:
+  #        name: Build nginx image
+  #        command: |
+  #          cd nginx
+  #          docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+  #          docker build -t aminfourty7/test-nginx:latest .
+  #          docker push aminfourty7/test-nginx:latest
+  #    - notify-failure      
   get-instance-ip:
     docker:
       - image: amazon/aws-cli
@@ -305,21 +305,21 @@ jobs:
 workflows:
   docker-deployment:
     jobs:
-      - build-nodejsapp
-      - scan-nodejsapp:
-          requires: [build-nodejsapp]
-      - build-nodeapp-dockerimage:
-          requires: [scan-nodejsapp]
-          context: slack-secrets
-      - build-nginx-dockerimage:
-          context: slack-secrets
-          requires: [scan-nodejsapp]
-          filters:
-            branches:
-              only: [main]
+      #- build-nodejsapp
+      #- scan-nodejsapp:
+      #    requires: [build-nodejsapp]
+      #- build-nodeapp-dockerimage:
+      #    requires: [scan-nodejsapp]
+      #    context: slack-secrets
+      #- build-nginx-dockerimage:
+      #    context: slack-secrets
+      #    requires: [scan-nodejsapp]
+      #    filters:
+      #      branches:
+      #        only: [main]
       - get-instance-ip:
           context: slack-secrets
-          requires: [build-nginx-dockerimage, build-nodeapp-dockerimage]        
+          #requires: [build-nginx-dockerimage, build-nodeapp-dockerimage]        
       - run-containers:
           context: slack-secrets
           requires: [get-instance-ip]

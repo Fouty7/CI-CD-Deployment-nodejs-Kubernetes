@@ -10,7 +10,7 @@
   - name: copy/update files
     become: yes
     shell: |
-      git clone https://github.com/Fouty7/nodejs-kubernetes.git
+#      git clone https://github.com/Fouty7/nodejs-kubernetes.git
       cd nodejs-kubernetes
       git pull
     
@@ -22,4 +22,4 @@
       cd nodejs-kubernetes
       docker image ls
       docker compose up -d --build
-#      docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+      docker rmi $(docker images --filter "dangling=true" -q --no-trunc)

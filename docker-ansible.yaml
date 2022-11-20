@@ -11,7 +11,7 @@
     become: yes
     shell: |
       git clone https://github.com/Fouty7/nodejs-kubernetes.git
-      cd cd nodejs-kubernetes
+      cd nodejs-kubernetes
       git pull
     
 

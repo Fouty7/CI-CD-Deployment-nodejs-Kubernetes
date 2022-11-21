@@ -10,6 +10,7 @@
   - name: copy/update files
     become: yes
     shell: |
+      git clone https://github.com/Fouty7/nodejs-kubernetes.git
       cd nodejs-kubernetes
       git pull
     
